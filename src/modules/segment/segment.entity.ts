@@ -6,17 +6,16 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Movie } from '../movie/movie.entity';
+import { Segments } from 'src/common/enums/segment';
 
-export const SegmentSlugs = ['instincts', 'intellect', 'balance'] as const;
-export type SegmentSlugsType = (typeof SegmentSlugs)[number];
 
 @Entity('segments')
 export class Segment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'enum', enum: SegmentSlugs })
-  slug: SegmentSlugsType;
+  @Column({ type: 'enum', enum: Segments })
+  slug: Segments;
 
   @Column('text')
   description: string;

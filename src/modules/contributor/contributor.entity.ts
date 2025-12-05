@@ -2,8 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
@@ -45,12 +43,6 @@ export class Contributor {
 
   @CreateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
-
-  // @ManyToMany(() => Movie, {
-  //   cascade: true,
-  // })
-  // @JoinTable()
-  // movies: Movie[];
 
   @OneToMany(() => MovieCredit, (movieCredit) => movieCredit.contributor)
   public movieCredit: MovieCredit[];

@@ -1,0 +1,215 @@
+openapi: 3.0.3
+info:
+  title: Content Aggregator API
+  version: 1.0.0
+  description: API with separated models for Catalog (polymorphic) and Details (static).
+
+servers:
+  - url: /api/v1
+    description: Production Server
+
+paths:
+  /catalog/{category}:
+    get:
+      summary: Get content list (Catalog View)
+      description: Returns a list of items with polymorphic metadata for filtering and preview.
+      tags: [Catalog]
+      parameters:
+        - name: category
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [movies, music, books, art]
+        - name: segment
+          in: query
+          schema:
+            $ref: '#/components/schemas/Segment'
+        - name: topic
+          in: query
+          schema:
+            $ref: '#/components/schemas/Topic'
+        - name: mode
+          in: query
+          schema:
+            type: string
+            enum: [works, creators]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /movies/{id}:
+    get:
+      summary: Get movie details (Detail View)
+      description: Returns full details of a specific movie. No polymorphic metadata here.
+      tags: [Movies]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Movie details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '404':
+          description: Movie not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    # --- CATALOG SCHEMAS (List View) ---
+    CatalogResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogItem'
+
+    CatalogItem:
+      type: object
+      description: Represents a preview item in the catalog list.
+      required: [id, title, kind, segment, topic]
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        coverUrl:
+          type: string
+          format: uri
+        kind:
+          $ref: '#/components/schemas/ItemKind'
+        segment:
+          $ref: '#/components/schemas/Segment'
+        topic:
+          $ref: '#/components/schemas/Topic'
+        
+        # Полиморфная метадата ТОЛЬКО для каталога
+        metadata:
+          description: Lightweight specific data for preview cards.
+          nullable: true
+          oneOf:
+            - $ref: '#/components/schemas/CatalogMovieMeta'
+            # В будущем добавишь сюда ссылки на схемы для книг/музыки
+          discriminator:
+            propertyName: metaType
+            mapping:
+              movie_meta: '#/components/schemas/CatalogMovieMeta'
+
+    # Схема метаданных конкретно для списка (превью)
+    CatalogMovieMeta:
+      type: object
+      required: [metaType]
+      properties:
+        metaType:
+          type: string
+          enum: [movie_meta]
+        mediaUrl:
+          type: string
+          description: url
+
+    # --- DETAIL SCHEMAS (Detail View) ---
+    Movie:
+      type: object
+      description: Full detail object for a Movie. NO 'metadata' field wrapper.
+      required: [id, title, slug, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        subTitle:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+          description: Full synopsis of the movie
+        coverUrl:
+          type: string
+          format: uri
+        mediaUrl:
+          type: string
+          format: uri
+          description: Direct link to the stream/file
+        duration:
+          type: integer
+        releaseDate:
+          type: string
+          format: date
+        director:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        # Сюда можно добавить segment/topic, если они нужны в деталке
+        segment:
+          $ref: '#/components/schemas/Segment'
+        topic:
+          $ref: '#/components/schemas/Topic'
+
+    # --- SHARED & UTILS ---
+    PaginationMeta:
+      type: object
+      properties:
+        currentPage: { type: integer }
+        perPage: { type: integer }
+        total: { type: integer }
+        totalPages: { type: integer }
+
+    ItemKind:
+      type: string
+      enum: [movie, movie_creator, book, book_creator, music, music_creator, art, art_creator]
+
+    Segment:
+      type: string
+      enum: [instincts, intellect, balance]
+
+    Topic:
+      type: string
+      enum: [aesthetics, self-expression, live, documentary, series]
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string

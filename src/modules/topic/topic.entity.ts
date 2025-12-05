@@ -6,23 +6,16 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Movie } from '../movie/movie.entity';
+import { Topics } from 'src/common/enums/topic';
 
-export const TopicValue = [
-  'aesthetics',
-  'self-expression',
-  'live',
-  'documentary',
-  'series',
-] as const;
-export type TopicValueType = (typeof TopicValue)[number];
 
 @Entity('topics')
 export class Topic {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'enum', enum: TopicValue })
-  slug: TopicValueType;
+  @Column({ type: 'enum', enum: Topics })
+  slug: Topics;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

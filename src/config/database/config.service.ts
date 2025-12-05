@@ -38,6 +38,8 @@ class ConfigService {
       username: this.getValue('POSTGRES_USER'),
       password: this.getValue('POSTGRES_PASSWORD'),
       database: this.getValue('POSTGRES_DATABASE'),
+      logger: 'advanced-console',
+      logging: ['error', 'migration', 'warn'],      
       autoLoadEntities: true,
       migrationsTableName: 'migration',
       migrations: ['src/database/migration/*.ts'],

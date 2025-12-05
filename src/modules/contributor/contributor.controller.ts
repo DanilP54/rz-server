@@ -7,8 +7,6 @@ export class ContributorController {
 
   @Get()
   findAll() {
-    return this.service.findByContentAndSegment('movies', 'instincts', {
-      topic: 'live',
-    });
+    return ''
   }
 }

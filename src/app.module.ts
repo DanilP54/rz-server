@@ -5,7 +5,7 @@ import { SegmentModule } from './modules/segment/segment.module';
 import { TopicModule } from './modules/topic/topic.module';
 import { ContributorModule } from './modules/contributor/contributor.module';
 import { MovieModule } from './modules/movie/movie.module';
-import { BrowseCardModule } from './modules/browse-view/browse.module';
+import { CatalogModule } from './modules/catalog/catalog.module';
 import { RoleModule } from './modules/role/role.module';
 import { MovieCreditModule } from './modules/movie-credit/movie-credit.module';
 
@@ -17,7 +17,7 @@ const Modules = [
   ContributorModule,
   MovieModule,
   MovieCreditModule,
-  BrowseCardModule,
+  CatalogModule,
 ];
 
 @Module({

@@ -1,5 +1,5 @@
 export interface PaginationQuery {
-  offset: number;
+  page: number;
   limit: number;
 }
 
@@ -12,7 +12,7 @@ export interface PaginationMeta {
   hasPrevPage: boolean;
 }
 
-export interface PaginationResponse<DataType> {
+export interface Paginated<DataType> {
   meta: PaginationMeta;
   items: DataType[];
 }
