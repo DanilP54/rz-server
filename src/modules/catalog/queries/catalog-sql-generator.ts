@@ -2,12 +2,12 @@ import { DataSource } from 'typeorm';
 import { CatalogKind } from '../enums';
 type ClassEntity = new (...arg: any) => any;
 
-interface ContentSourceOptions {
-  entity: ClassEntity;
-  alias: string;
-  kindLabel: CatalogKind;
-  metadataExpression: string;
-}
+// interface ContentSourceOptions {
+//   entity: ClassEntity;
+//   alias: string;
+//   kindLabel: CatalogKind;
+//   metadataExpression: string;
+// }
 
 interface ContributorSourceOptions {
   creditEntity: ClassEntity;
