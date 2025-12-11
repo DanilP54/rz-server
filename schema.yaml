@@ -107,14 +107,16 @@ components:
           format: uuid
         title:
           type: string
+        subtitle:
+          type: string
         coverUrl:
           type: string
           format: uri
         kind:
           $ref: '#/components/schemas/ItemKind'
-        segment:
+        currenSegment:
           $ref: '#/components/schemas/Segment'
-        topic:
+        currentTopic:
           $ref: '#/components/schemas/Topic'
         
         # Полиморфная метадата ТОЛЬКО для каталога
@@ -134,12 +136,16 @@ components:
       type: object
       required: [metaType]
       properties:
+        id:
+         type: string
         metaType:
           type: string
           enum: [movie_meta]
         mediaUrl:
           type: string
           description: url
+        slug: 
+          type: string
 
     # --- DETAIL SCHEMAS (Detail View) ---
     Movie:
@@ -213,3 +219,8 @@ components:
           type: integer
         message:
           type: string
+
+
+
+
+

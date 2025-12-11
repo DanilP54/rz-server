@@ -1,3 +1,4 @@
+import { RoleScope } from 'src/common/enums/role';
 import {
   Column,
   CreateDateColumn,
@@ -5,14 +6,6 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
-
-export enum RoleScope {
-  GLOBAL = 'global',
-  MOVIE = 'movie',
-  MUSIC = 'music',
-  BOOK = 'book',
-  ARTWOTK = 'artwork',
-}
 
 @Entity('roles')
 @Unique(['slug'])

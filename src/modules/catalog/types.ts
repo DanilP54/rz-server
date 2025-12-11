@@ -11,4 +11,10 @@ export interface BookMeta {
   metaType: "'book-meta'";
 }
 
-export type CatalogMeta = MovieMeta | BookMeta;
+export interface ContributorMeta {
+  id: string;
+  slug: string;
+  metaType: string;
+}
+
+export type CatalogMeta = MovieMeta | BookMeta | ContributorMeta;

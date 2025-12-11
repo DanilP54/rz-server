@@ -7,15 +7,15 @@ import { IsEnum, IsOptional } from 'class-validator';
 import { ContentFiltersQueryDto } from 'src/common/dtos/content-filters-query.dto';
 import { Paginated } from 'src/common/interfaces/pagination';
 import { CatalogItemDto } from './dtos/catalog-item.dto';
-import { CatalogCategory, CatalogKind, CatalogViewMode } from './enums';
+import { CatalogCategory, CatalogKind, CatalogMode } from './enums';
 
 class CatalogQueryDto extends IntersectionType(
   PaginationDto,
   ContentFiltersQueryDto,
 ) {
   @IsOptional()
-  @IsEnum(CatalogViewMode)
-  mode?: CatalogViewMode;
+  @IsEnum(CatalogMode)
+  mode?: CatalogMode;
 }
 
 @Controller('catalog')

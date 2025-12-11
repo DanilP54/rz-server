@@ -1,11 +1,13 @@
-export enum CatalogViewMode {
+import { ContributorRole } from "src/common/enums/role";
+
+export enum CatalogMode {
   WORKS = 'works',
   CREATORS = 'creators',
 }
 
 export enum CatalogKind {
   MOVIE = 'movie',
-  MOVIE_CREATOR = 'movie_creator',
+  MOVIE_CREATOR = ContributorRole.Director,
 
   BOOK = 'book',
   BOOK_CREATOR = 'book_creator',

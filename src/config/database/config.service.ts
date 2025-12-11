@@ -42,7 +42,7 @@ class ConfigService {
       logging: ['error', 'migration', 'warn'],      
       autoLoadEntities: true,
       migrationsTableName: 'migration',
-      migrations: ['src/database/migration/*.ts'],
+      migrations: ['src/database/migrations/**/*{.js,.ts}'],
       ssl: this.isProduction(),
       synchronize: true
     };

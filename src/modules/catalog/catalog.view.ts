@@ -1,4 +1,4 @@
-import { DataSource, ViewColumn, ViewEntity } from 'typeorm';
+import { DataSource, Index, IndexOptions, ViewColumn, ViewEntity } from 'typeorm';
 
 import type { CatalogMeta } from './types';
 import { Segments } from 'src/common/enums/segment';
@@ -11,12 +11,15 @@ import { CatalogKind } from './enums';
 
 @ViewEntity({
   name: 'catalog-view',
+  materialized: true,
   expression: (dataSource: DataSource) => {
     return new CatalogViewBuilder(dataSource)
       .add(new MovieCatalogSource(new CatalogSqlGenerator(dataSource)))
       .build();
   },
 })
+
+
 export class CatalogView {
   @ViewColumn()
   id: string;
@@ -29,9 +32,11 @@ export class CatalogView {
   @ViewColumn()
   kind: CatalogKind;
   @ViewColumn()
-  segment: Segments;
+  pairs: string[];
   @ViewColumn()
-  topic: Topics;
+  segment: Segments[];
+  @ViewColumn()
+  topic: Topics[];
   @ViewColumn()
   createdAt: Date;
   @ViewColumn()
